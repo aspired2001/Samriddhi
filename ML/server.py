@@ -26,7 +26,7 @@ def predict_large_language_model_sample(
     project_id: str,
     model_name: str,
     temperature: float,
-    max_decode_steps: int,
+    max_decode_steps: float,
     top_p: float,
     top_k: int,
     content: str,

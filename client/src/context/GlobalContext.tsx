@@ -12,28 +12,46 @@ const GlobalState = (props: any) => {
     else toast.info(message);
   };
 
-  const getSchemes = async (income: number, age: number, urban_rular: string) => {
-    try {
-      const response = await fetch(`${url}/api/flask/getSchemes`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ income, age, urban_rular }),
-      });
-      const data = await response.json();
-      if (data) {
-        toastMessage(data.info, "success");
-        return data.applicable_schemes;
-      } else {
-        toastMessage(data.error, "error");
-        return false;
-      }
-    } catch (error) {
-      console.log(error);
-      toastMessage("Something went wrong!", "error");
-    }
-  }
+ const getSchemes = async (
+   income: number,
+   age: number,
+   urban_rural: string
+ ) => {
+   try {
+     const response = await fetch(`${url}/api/flask/getSchemes`, {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
+       },
+       body: JSON.stringify({ income, age, urban_rural }),
+     });
+
+     // Ensure you handle non-JSON responses or invalid status codes
+     if (!response.ok) {
+       toastMessage("Failed to fetch schemes", "error");
+       return false;
+     }
+
+     const data = await response.json();
+
+     // Check for applicable_schemes explicitly
+     if (
+       data &&
+       data.applicable_schemes &&
+       data.applicable_schemes.length > 0
+     ) {
+       toastMessage(data.info || "Schemes fetched successfully", "success");
+       return data.applicable_schemes;
+     } else {
+       toastMessage(data.error || "No applicable schemes found", "warning");
+       return false;
+     }
+   } catch (error) {
+     console.error("Error in getSchemes:", error);
+     toastMessage("Something went wrong!", "error");
+     return false;
+   }
+ };
 
   const chatbot = async (question: string) => {
     try {

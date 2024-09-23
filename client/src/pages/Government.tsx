@@ -33,13 +33,26 @@ const Government = () => {
     const income = incomeRef.current?.value;
     const age = ageRef.current?.value;
     const urbanRural = urbanRuralRef.current?.value;
+
     console.log(income, age, urbanRural);
-    const response = await getSchemes(income, age, urbanRural);
-    console.log(response);
-    const outputArray = convertToObjectArray(response);
-    console.log(outputArray);
-    // @ts-ignore
-    setSchemes(outputArray);
+
+    try {
+      const response = await getSchemes(income, age, urbanRural);
+
+      if (!response || Object.keys(response).length === 0) {
+        console.error("No data returned from getSchemes");
+        setSchemes([]);
+        return;
+      }
+
+      console.log(response);
+      const outputArray = convertToObjectArray(response);
+      console.log(outputArray);
+      setSchemes(outputArray);
+    } catch (error) {
+      console.error("Error fetching schemes:", error);
+      setSchemes([]);
+    }
   };
 
   return (

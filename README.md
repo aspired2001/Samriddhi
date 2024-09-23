@@ -3,6 +3,8 @@
 
 ## Overview
 
+# Deployed Link: https://samriddhiapp.vercel.app/
+
 Samriddhi is a full-stack financial application built using the MERN stack (MongoDB, Express.js, React.js, Node.js) along with Framer Motion, Atropos, and Tailwind CSS. It aims to revolutionize financial services by offering digital payments, fund management, insurance integration, and enhanced security features.
 
 ## Features
